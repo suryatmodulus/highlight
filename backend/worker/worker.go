@@ -1250,10 +1250,13 @@ func (w *Worker) RefreshMaterializedViews(ctx context.Context) {
 			continue
 		}
 		for _, p := range workspace.Projects {
-			count, _ := w.Resolver.ClickhouseClient.ReadLogsTotalCount(ctx, p.ID, backend.LogsParamsInput{DateRange: &backend.DateRangeRequiredInput{
+			count, err := w.Resolver.ClickhouseClient.ReadLogsTotalCount(ctx, p.ID, backend.LogsParamsInput{DateRange: &backend.DateRangeRequiredInput{
 				StartDate: time.Now().Add(-time.Hour * 24 * 30),
 				EndDate:   time.Now(),
 			}})
+			if err != nil {
+				log.WithContext(ctx).WithField("project_id", p.ID).Fatal(e.Wrap(err, "Failed to read logs for project"))
+			}
 			c.LogCount += int64(count)
 		}
 	}
