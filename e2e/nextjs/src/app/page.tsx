@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PathButtons } from '@/app/components/path-buttons'
 import { TrpcQueries } from '@/app/components/trpc-queries'
+import { Canvas } from '@/app/components/canvas'
 
 export default function Home() {
 	return (
@@ -36,6 +37,9 @@ export default function Home() {
 			<FetchTests />
 
 			<Link href="/another-page">Navigation Test</Link>
+
+			<h3>Canvas</h3>
+			<Canvas />
 		</main>
 	)
 }
